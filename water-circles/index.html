@@ -40,7 +40,7 @@
       vec2 coord2(in vec2 p){
           p=p/u_resolution.xy;
 
-          if(p.x<.4&&p.x>0.1&&p.y<.4&&p.y>0.1){
+          if(p.x<.35&&p.x>0.15&&p.y<.45&&p.y>0.05){
               p-=.5;
               p*=vec2(-1.,1.);
               // p = vec2(0.5,0.5);
@@ -92,7 +92,7 @@
 
       vec2 coordbr(in vec2 p){
           p=p/u_resolution.xy;
-          if(p.x>=.6&&p.x<0.9&&p.y<.4&&p.y>0.1){
+          if(p.x>=.6&&p.x<0.85&&p.y<.45&&p.y>0.05){
               p-=.5;
               p*=vec2(-1.,1.);
           }else{
@@ -143,7 +143,7 @@
 
       vec2 coordtl(in vec2 p){
           p=p/u_resolution.xy;
-          if(p.x<.4&&p.x>0.1&&p.y>=.6&&p.y<.9){
+          if(p.x<.35&&p.x>0.15&&p.y>=.55&&p.y<.95){
               p-=.5;
               p*=vec2(-1.,1.);
           }else{
@@ -194,7 +194,7 @@
 
       vec2 coordtr(in vec2 p){
           p=p/u_resolution.xy;
-          if(p.x>=.6&&p.x<.9&&p.y>=.6&&p.y<.9){
+          if(p.x>=.65&&p.x<.85&&p.y>=.55 && p.y<.95){
               p-=.5;
               p*=vec2(-1.,1.);
           }else{
