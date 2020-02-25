@@ -100,6 +100,9 @@ function init() {
   container3.appendChild(renderer3.domElement);
   container4.appendChild(renderer4.domElement);
 
+  let windowWidth;
+  let windowHeight;
+
   onWindowResize();
   window.addEventListener("resize", onWindowResize, false);
 
@@ -110,12 +113,15 @@ function init() {
 }
 
 function onWindowResize(event) {
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer2.setSize(window.innerWidth, window.innerHeight);
-  renderer3.setSize(window.innerWidth, window.innerHeight);
-  renderer4.setSize(window.innerWidth, window.innerHeight);
-  uniforms.u_resolution.value.x = window.innerWidth;
-  uniforms.u_resolution.value.y = window.innerHeight;
+  windowWidth = window.innerWidth;
+  windowHeight = window.innerHeight;
+
+  renderer.setSize(windowWidth / 2, windowHeight / 2);
+  renderer2.setSize(windowWidth / 2, windowHeight / 2);
+  renderer3.setSize(windowWidth / 2, windowHeight / 2);
+  renderer4.setSize(windowWidth / 2, windowHeight / 2);
+  uniforms.u_resolution.value.x = windowWidth;
+  uniforms.u_resolution.value.y = windowHeight;
 }
 
 function animate() {
