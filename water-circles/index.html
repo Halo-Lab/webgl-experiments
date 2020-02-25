@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Water shader</title>
+    <link rel="stylesheet" href="./style/index.css" />
+  </head>
+  <body>
+    <div id="container">
+      <div id="circle1"></div>
+      <div id="circle2"></div>
+      <div id="circle3"></div>
+      <div id="circle4"></div>
+    </div>
+
+    <script src="./js/three.min.js"></script>
+    <script id="vertexShader" type="x-shader/x-vertex">
+      void main() {
+          gl_Position = vec4( position, 1.0 );
+      }
+    </script>
+    <script id="fragmentShader" type="x-shader/x-fragment">
+      #ifdef GL_ES
+      precision mediump float;
+      #endif
+
+      uniform vec2 u_resolution;
+      uniform float u_time;
+      uniform vec2 u_mouse;
+
+      float circle(in vec2 _st,in float _radius){
+          vec2 l=_st-vec2(.5);
+          return smoothstep(_radius-(_radius*.01),
+          _radius+(_radius*.02),
+          dot(l,l)*4.);
+      }
+
+      vec2 coord2(in vec2 p){
+          p=p/u_resolution.xy;
+
+          if(p.x<.4&&p.x>0.1&&p.y<.4&&p.y>0.1){
+              p-=.5;
+              p*=vec2(-1.,1.);
+              // p = vec2(0.5,0.5);
+          }else{
+              p=vec2(0.,0.);
+          }
+          return p;
+      }
+
+      #define mx coord2(u_mouse)
+
+      void main(){
+          vec2 coord=8.*gl_FragCoord.xy/u_resolution;
+
+          for(int n=1;n<8;n++){
+              float i=float(n);
+              coord+=vec2(.7/i*sin(i*coord.y+u_time+.3*i)+.8,.4/i*sin(coord.x+u_time+.3*i*20.)+1.6);
+          }
+
+          vec3 color=vec3(.1*sin(coord.x)+abs(sin(mx.x*mx.y*1.8))*2.2,.1*sin(coord.y),.4*sin(coord.x+coord.y)-abs(sin(mx.x*1.4)*.4)+.8);
+
+          vec2 st=gl_FragCoord.xy/u_resolution;
+          vec3 color2=vec3(0.);
+
+          st*=2.;
+          st=fract(st);
+
+          color2=vec3(st,0.);
+          color2=vec3(circle(st,.5));
+
+          gl_FragColor=vec4(color,1.);
+      }
+    </script>
+    <script id="fragmentShader2" type="x-shader/x-fragment">
+      #ifdef GL_ES
+      precision mediump float;
+      #endif
+
+      uniform vec2 u_resolution;
+      uniform float u_time;
+      uniform vec2 u_mouse;
+
+      float circle(in vec2 _st,in float _radius){
+          vec2 l=_st-vec2(.5);
+          return smoothstep(_radius-(_radius*.01),
+          _radius+(_radius*.02),
+          dot(l,l)*4.);
+      }
+
+      vec2 coordbr(in vec2 p){
+          p=p/u_resolution.xy;
+          if(p.x>=.6&&p.x<0.9&&p.y<.4&&p.y>0.1){
+              p-=.5;
+              p*=vec2(-1.,1.);
+          }else{
+              p=vec2(0.,0.);
+          }
+          return p;
+      }
+
+      #define mxbr coordbr(u_mouse)
+
+      void main(){
+          vec2 coord=8.*gl_FragCoord.xy/u_resolution;
+
+          for(int n=1;n<8;n++){
+              float i=float(n);
+              coord+=vec2(.7/i*sin(i*coord.y+u_time+.3*i)+.8,.4/i*sin(coord.x+u_time+.3*i*20.)+1.6);
+          }
+
+          vec3 color=vec3(.1*sin(coord.x),.1*sin(coord.y)+abs(sin(mxbr.x*mxbr.x*1.1))*3.2,.4*sin(coord.x+coord.y)+.8+abs(sin(mxbr.x*mxbr.x*.8))*1.2);
+
+          vec2 st=gl_FragCoord.xy/u_resolution;
+          vec3 color2=vec3(0.);
+
+          st*=2.;
+          st=fract(st);
+
+          color2=vec3(st,0.);
+          color2=vec3(circle(st,.5));
+
+          gl_FragColor=vec4(color,1.);
+      }
+    </script>
+    <script id="fragmentShader3" type="x-shader/x-fragment">
+      #ifdef GL_ES
+      precision mediump float;
+      #endif
+
+      uniform vec2 u_resolution;
+      uniform float u_time;
+      uniform vec2 u_mouse;
+
+      float circle(in vec2 _st,in float _radius){
+          vec2 l=_st-vec2(.5);
+          return smoothstep(_radius-(_radius*.01),
+          _radius+(_radius*.02),
+          dot(l,l)*4.);
+      }
+
+      vec2 coordtl(in vec2 p){
+          p=p/u_resolution.xy;
+          if(p.x<.4&&p.x>0.1&&p.y>=.6&&p.y<.9){
+              p-=.5;
+              p*=vec2(-1.,1.);
+          }else{
+              p=vec2(0.,0.);
+          }
+          return p;
+      }
+
+      #define mxtl coordtl(u_mouse)
+
+      void main(){
+          vec2 coord=8.*gl_FragCoord.xy/u_resolution;
+
+          for(int n=1;n<8;n++){
+              float i=float(n);
+              coord+=vec2(.7/i*sin(i*coord.y+u_time+.3*i)+.8,.4/i*sin(coord.x+u_time+.3*i*20.)+1.6);
+          }
+
+          vec3 color=vec3(.1*sin(coord.x),.1*sin(coord.y)+abs(sin(mxtl.x*mxtl.y*3.8))*2.2,.4*sin(coord.x+coord.y)+.8);
+
+          vec2 st=gl_FragCoord.xy/u_resolution;
+          vec3 color2=vec3(0.);
+
+          st*=2.;
+          st=fract(st);
+
+          color2=vec3(st,0.);
+          color2=vec3(circle(st,.5));
+
+          gl_FragColor=vec4(color,1.);
+      }
+    </script>
+    <script id="fragmentShader4" type="x-shader/x-fragment">
+      #ifdef GL_ES
+      precision mediump float;
+      #endif
+
+      uniform vec2 u_resolution;
+      uniform float u_time;
+      uniform vec2 u_mouse;
+
+      float circle(in vec2 _st,in float _radius){
+          vec2 l=_st-vec2(.5);
+          return smoothstep(_radius-(_radius*.01),
+          _radius+(_radius*.02),
+          dot(l,l)*4.);
+      }
+
+      vec2 coordtr(in vec2 p){
+          p=p/u_resolution.xy;
+          if(p.x>=.6&&p.x<.9&&p.y>=.6&&p.y<.9){
+              p-=.5;
+              p*=vec2(-1.,1.);
+          }else{
+              p=vec2(0.,0.);
+          }
+          return p;
+      }
+
+      #define mxtr coordtr(u_mouse)
+
+      void main(){
+          vec2 coord=8.*gl_FragCoord.xy/u_resolution;
+
+          for(int n=1;n<8;n++){
+              float i=float(n);
+              coord+=vec2(.7/i*sin(i*coord.y+u_time+.3*i)+.8,.4/i*sin(coord.x+u_time+.3*i*20.)+1.6);
+          }
+
+          vec3 color=vec3(.1*sin(coord.x)+abs(sin(mxtr.x*mxtr.y*2.8))*2.2,.1*sin(coord.y)+abs(sin(mxtr.x*mxtr.y*2.8))*1.5,.4*sin(coord.x+coord.y)+.8);
+
+          vec2 st=gl_FragCoord.xy/u_resolution;
+          vec3 color2=vec3(0.);
+
+          st*=2.;
+          st=fract(st);
+
+          color2=vec3(st,0.);
+          color2=vec3(circle(st,.5));
+
+          gl_FragColor=vec4(color,1.);
+      }
+    </script>
+
+    <script src="./js/index.js"></script>
+  </body>
+</html>
