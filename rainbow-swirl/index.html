@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Water shader</title>
+    <link rel="stylesheet" href="./style/index.css" />
+  </head>
+  <body>
+    <div id="container"></div>
+
+    <script src="./js/three.min.js"></script>
+    <script id="vertexShader" type="x-shader/x-vertex">
+      void main() {
+          gl_Position = vec4( position, 1.0 );
+      }
+    </script>
+    <script id="fragmentShader" type="x-shader/x-fragment">
+      #ifdef GL_ES
+      precision mediump float;
+      #endif
+
+      uniform float u_time;
+      uniform vec2 u_resolution;
+
+      void main() {
+
+        vec2 coord = (gl_FragCoord.xy / u_resolution);
+
+          vec2 translate = vec2(-0.5,-0.5);
+        coord += translate;
+          coord.x *= u_resolution.x/u_resolution.y;
+        vec3 color = vec3(0.0);
+
+        float angle = atan(-coord.y, coord.x) * .1;
+        float len = length(coord);
+
+        color.r += sin(len * 60.0 - angle * 40.0 - u_time * 0.5);
+        color.g += sin(len * 50.0 - angle * 60.0 + u_time * 0.2);
+        color.b += sin(len * 60.0 - angle * 60.0 - 4.0);
+
+        gl_FragColor = vec4(color, 1.0);
+      }
+    </script>
+    <script src="./js/index.js"></script>
+  </body>
+</html>
