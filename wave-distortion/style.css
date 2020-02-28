@@ -1,0 +1,28 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.container {
+  position: absolute;
+  height: 90vmin;
+  width: 90vmin;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%) translateY(-50%);
+  overflow: hidden;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.9);
+}
+.canvas-wrapper {
+  overflow: hidden;
+}
+canvas {
+  display: block;
+}
+body {
+  overflow: hidden;
+  background-attachment: fixed;
+  background-size: cover;
+}
